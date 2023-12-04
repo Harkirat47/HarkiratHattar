@@ -281,7 +281,7 @@ class Cell {
   }
 
   pin(lifeTime = -1 >>> 1) {
-    this.expireAt = Date.now() + lifeTime;
+    this.expireAt = Date.now() + lifeTime*2;
 
     PINNED_CELLS.push(this);
   }
@@ -682,7 +682,7 @@ const shape = {
         // release
         this.spiral({
           reverse: true,
-          lifeTime: 500,
+          lifeTime: 1000,
           electronCount: 2 });
 
       }
@@ -819,13 +819,13 @@ function countdown() {
 
 function galaxy() {
   shape.spiral({
-    radius: 0,
+    radius: 1,
     increment: 1,
     lifeTime: 100,
     electronCount: 1 });
 
 
-  timer = setTimeout(galaxy, 16);
+  timer = setTimeout(galaxy, 26);
 }
 
 function ring() {
