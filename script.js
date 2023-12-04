@@ -1,8 +1,8 @@
-const STEP_LENGTH = .5;
-const CELL_SIZE = 14;
+const STEP_LENGTH = 1;
+const CELL_SIZE = 23;
 const BORDER_WIDTH = 3;
 const MAX_FONT_SIZE = 500;
-const MAX_ELECTRONS = 40;
+const MAX_ELECTRONS = 10;
 const CELL_DISTANCE = CELL_SIZE + BORDER_WIDTH;
 
 // shorter for brighter paint
@@ -165,13 +165,13 @@ class FullscreenCanvas {
 
   class Electron {
     constructor(x = 0, y = 0, { lifeTime = 8 * 1e3, speed = STEP_LENGTH, color = ELECTRON_COLOR } = {}) {
-      this.lifeTime = lifeTime;
-      this.expireAt = Date.now() + lifeTime;
+      this.lifeTime = lifeTime/2;
+      this.expireAt = Date.now() + 1 * 1e3;
   
-      this.speed = speed;
+      this.speed = speed/1.5;
       this.color = color;
   
-      this.radius = BORDER_WIDTH / 2;
+      this.radius = BORDER_WIDTH ;
       this.current = [x, y];
       this.visited = {};
       this.setDest(this.randomPath());
@@ -180,7 +180,7 @@ class FullscreenCanvas {
     randomPath() {
       const { current: [x, y] } = this;
       const { length } = MOVE_TRAILS;
-      const [deltaX, deltaY] = MOVE_TRAILS[_.random(length - 1)];
+      const [deltaX, deltaY] = MOVE_TRAILS[_.random(length - 2)];
   
       return [x + deltaX, y + deltaY];
     }
@@ -260,7 +260,7 @@ class Cell {
   row = 0,
   col = 0,
   {
-    electronCount = 3,
+    electronCount = 1,
     background = ELECTRON_COLOR,
     forceElectrons = false,
     electronOptions = {} } =
@@ -269,14 +269,14 @@ class Cell {
     this.background = background;
     this.electronOptions = electronOptions;
     this.forceElectrons = forceElectrons;
-    this.electronCount = Math.min(electronCount, 4);
+    this.electronCount = Math.min(electronCount, 1);
 
     this.startY = row * CELL_DISTANCE;
     this.startX = col * CELL_DISTANCE;
   }
 
   delay(ms = 0) {
-    this.pin(ms * 1.5);
+    this.pin(ms * 1);
     this.nextUpdate = Date.now() + ms;
   }
 
@@ -458,8 +458,8 @@ function handlePointer() {
       forceElectrons: true,
       electronCount: isMove ? 1 : 1,
       electronOptions: {
-        speed: 1,
-        lifeTime: isMove ? 800 : 1000,
+        speed: .75,
+        lifeTime: isMove ? 500 : 700,
         color: CELL_HIGHLIGHT } });
 
 
@@ -552,14 +552,14 @@ const shape = {
     return {
       speed: 2,
       color: FONT_COLOR,
-      lifeTime: _.random(300, 500) };
+      lifeTime: _.random(200, 300) };
 
   },
 
   get cellOptions() {
     return {
       background: FONT_COLOR,
-      electronCount: _.random(1, 4),
+      electronCount: 2,
       electronOptions: this.electronOptions };
 
   },
@@ -874,7 +874,7 @@ document.getElementById('input').addEventListener('keypress', ({ keyCode, target
 });
 
 shape.init();
-shape.print('Harkirat Hattar');
+shape.print('Harkirat');
 
 // prevent zoom
 document.addEventListener('touchmove', e => e.preventDefault());
