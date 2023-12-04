@@ -1,8 +1,8 @@
-const STEP_LENGTH = 1;
-const CELL_SIZE = 10;
-const BORDER_WIDTH = 2;
+const STEP_LENGTH = .5;
+const CELL_SIZE = 14;
+const BORDER_WIDTH = 3;
 const MAX_FONT_SIZE = 500;
-const MAX_ELECTRONS = 100;
+const MAX_ELECTRONS = 40;
 const CELL_DISTANCE = CELL_SIZE + BORDER_WIDTH;
 
 // shorter for brighter paint
@@ -740,7 +740,7 @@ const shape = {
         background: CELL_HIGHLIGHT,
         electronOptions: {
           lifeTime,
-          speed: 3,
+          speed: 1,
           color: CELL_HIGHLIGHT } });
 
 
