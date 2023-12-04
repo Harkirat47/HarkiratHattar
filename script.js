@@ -1,6 +1,6 @@
-const STEP_LENGTH = 1;
-const CELL_SIZE = 23;
-const BORDER_WIDTH = 3;
+const STEP_LENGTH = .2;
+const CELL_SIZE = 24;
+const BORDER_WIDTH = 2;
 const MAX_FONT_SIZE = 500;
 const MAX_ELECTRONS = 10;
 const CELL_DISTANCE = CELL_SIZE + BORDER_WIDTH;
@@ -8,8 +8,8 @@ const CELL_DISTANCE = CELL_SIZE + BORDER_WIDTH;
 // shorter for brighter paint
 // be careful of performance issue
 const CELL_REPAINT_INTERVAL = [
-300, // from
-600 // to
+600, // from
+800 // to
 ];
 
 const BG_COLOR = '#00000';
@@ -38,8 +38,8 @@ const END_POINTS_OFFSET = [
 [1, 0], // right top
 [1, 1] // right bottom
 ].map(([x, y]) => [
-x * CELL_DISTANCE - BORDER_WIDTH / 2,
-y * CELL_DISTANCE - BORDER_WIDTH / 2]);
+x * CELL_DISTANCE - BORDER_WIDTH / 3,
+y * CELL_DISTANCE - BORDER_WIDTH / 3]);
 
 
 class FullscreenCanvas {
@@ -166,7 +166,7 @@ class FullscreenCanvas {
   class Electron {
     constructor(x = 0, y = 0, { lifeTime = 8 * 1e3, speed = STEP_LENGTH, color = ELECTRON_COLOR } = {}) {
       this.lifeTime = lifeTime/2;
-      this.expireAt = Date.now() + 1 * 1e3;
+      this.expireAt = Date.now() + 500;
   
       this.speed = speed/1.5;
       this.color = color;
@@ -260,7 +260,7 @@ class Cell {
   row = 0,
   col = 0,
   {
-    electronCount = 1,
+    electronCount = .1,
     background = ELECTRON_COLOR,
     forceElectrons = false,
     electronOptions = {} } =
@@ -456,10 +456,10 @@ function handlePointer() {
     const cell = new Cell(i, j, {
       background: CELL_HIGHLIGHT,
       forceElectrons: true,
-      electronCount: isMove ? 1 : 1,
+      electronCount: isMove ? 10 : 100,
       electronOptions: {
-        speed: .75,
-        lifeTime: isMove ? 500 : 700,
+        speed: 1,
+        lifeTime: isMove ? 800 : 1000,
         color: CELL_HIGHLIGHT } });
 
 
@@ -559,7 +559,7 @@ const shape = {
   get cellOptions() {
     return {
       background: FONT_COLOR,
-      electronCount: 2,
+      electronCount: 10,
       electronOptions: this.electronOptions };
 
   },
