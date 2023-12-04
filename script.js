@@ -163,119 +163,96 @@ class FullscreenCanvas {
   }}
 
 
-class Electron {
-  constructor(
-  x = 0,
-  y = 0,
-  {
-    lifeTime = 8 * 1e3,
-    speed = STEP_LENGTH,
-    color = ELECTRON_COLOR } =
-  {})
-  {
-    this.lifeTime = lifeTime;
-    this.expireAt = Date.now() + lifeTime;
-
-    this.speed = speed;
-    this.color = color;
-
-    this.radius = BORDER_WIDTH / 2;
-    this.current = [x, y];
-    this.visited = {};
-    this.setDest(this.randomPath());
-  }
-
-  randomPath() {
-    const {
-      current: [x, y] } =
-    this;
-
-    const { length } = MOVE_TRAILS;
-
-    const [deltaX, deltaY] = MOVE_TRAILS[_.random(length - 1)];
-
-    return [
-    x + deltaX,
-    y + deltaY];
-
-  }
-
-  composeCoord(coord) {
-    return coord.join(',');
-  }
-
-  hasVisited(dest) {
-    const key = this.composeCoord(dest);
-
-    return this.visited[key];
-  }
-
-  setDest(dest) {
-    this.destination = dest;
-    this.visited[this.composeCoord(dest)] = true;
-  }
-
-  next() {
-    let {
-      speed,
-      current,
-      destination } =
-    this;
-
-    if (Math.abs(current[0] - destination[0]) <= speed / 2 &&
-    Math.abs(current[1] - destination[1]) <= speed / 2)
-    {
-      destination = this.randomPath();
-
-      let tryCnt = 1;
-      const maxAttempt = 4;
-
-      while (this.hasVisited(destination) && tryCnt <= maxAttempt) {
-        tryCnt++;
+  class Electron {
+    constructor(x = 0, y = 0, { lifeTime = 8 * 1e3, speed = STEP_LENGTH, color = ELECTRON_COLOR } = {}) {
+      this.lifeTime = lifeTime;
+      this.expireAt = Date.now() + lifeTime;
+  
+      this.speed = speed;
+      this.color = color;
+  
+      this.radius = BORDER_WIDTH / 2;
+      this.current = [x, y];
+      this.visited = {};
+      this.setDest(this.randomPath());
+    }
+  
+    randomPath() {
+      const { current: [x, y] } = this;
+      const { length } = MOVE_TRAILS;
+      const [deltaX, deltaY] = MOVE_TRAILS[_.random(length - 1)];
+  
+      return [x + deltaX, y + deltaY];
+    }
+  
+    composeCoord(coord) {
+      return coord.join(',');
+    }
+  
+    hasVisited(dest) {
+      const key = this.composeCoord(dest);
+      return this.visited[key];
+    }
+  
+    setDest(dest) {
+      this.destination = dest;
+      this.visited[this.composeCoord(dest)] = true;
+    }
+  
+    next() {
+      let { speed, current, destination } = this;
+  
+      if (Math.abs(current[0] - destination[0]) <= speed / 2 && Math.abs(current[1] - destination[1]) <= speed / 2) {
         destination = this.randomPath();
+        let tryCnt = 1;
+        const maxAttempt = 4;
+  
+        while (this.hasVisited(destination) && tryCnt <= maxAttempt) {
+          tryCnt++;
+          destination = this.randomPath();
+        }
+  
+        this.setDest(destination);
       }
-
-      this.setDest(destination);
+  
+      const deltaX = destination[0] - current[0];
+      const deltaY = destination[1] - current[1];
+  
+      if (deltaX) {
+        current[0] += deltaX / Math.abs(deltaX) * speed;
+      }
+  
+      if (deltaY) {
+        current[1] += deltaY / Math.abs(deltaY) * speed;
+      }
+  
+      return [...this.current];
     }
-
-    const deltaX = destination[0] - current[0];
-    const deltaY = destination[1] - current[1];
-
-    if (deltaX) {
-      current[0] += deltaX / Math.abs(deltaX) * speed;
+  
+    paintNextTo(layer = new FullscreenCanvas()) {
+      const { radius, color, expireAt, lifeTime } = this;
+      const [x, y] = this.next();
+  
+      layer.paint(ctx => {
+        ctx.globalAlpha = Math.max(0, expireAt - Date.now()) / lifeTime;
+        ctx.fillStyle = color;
+        ctx.shadowColor = color;
+        ctx.shadowBlur = radius * 5;
+        ctx.globalCompositeOperation = 'lighter';
+  
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.closePath();
+  
+        ctx.fill();
+      });
     }
-
-    if (deltaY) {
-      current[1] += deltaY / Math.abs(deltaY) * speed;
-    }
-
-    return [...this.current];
   }
-
-  paintNextTo(layer = new FullscreenCanvas()) {
-    const {
-      radius,
-      color,
-      expireAt,
-      lifeTime } =
-    this;
-
-    const [x, y] = this.next();
-
-    layer.paint(ctx => {
-      ctx.globalAlpha = Math.max(0, expireAt - Date.now()) / lifeTime;
-      ctx.fillStyle = color;
-      ctx.shadowColor = color;
-      ctx.shadowBlur = radius * 5;
-      ctx.globalCompositeOperation = 'lighter';
-
-      ctx.beginPath();
-      ctx.arc(x, y, radius, 0, Math.PI * 2);
-      ctx.closePath();
-
-      ctx.fill();
-    });
-  }}
+  
+  // Other methods...
+  
+  // Replace your existing Electron class with the optimized Electron class here
+  
 
 
 class Cell {
