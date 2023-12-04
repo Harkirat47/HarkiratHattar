@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Navbar</title>
+  <style>
+    /* Define the custom font */
+    @font-face {
+      font-family: 'CustomFont';
+      src: url('HammersmithOne-Regular.ttf') format('truetype');
+    }
+
+    /* Apply styles to the entire body */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black; /* Set the background color to black */
+      color: white; /* Set text color to white */
+      font-family: 'CustomFont', Arial; /* Use custom font with fallback to Arial */
+    }
+
+    /* Navbar styles */
+    .navbar {
+      background-color: rgba(0, 0, 0, 0); /* Semi-transparent background */
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1%;
+      font-size: 24px; /* Increase text size */
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
+    }
+
+    /* Background image styles */
+    .background-image {
+      background-image: url('https://wallpaperaccess.com/full/4711013.jpg'); /* Replace 'path_to_your_image.jpg' with your image path */
+      background-size: cover;
+      background-position: center center; /* Center the image within the segment */
+      height: 500px; /* Adjust the height of the background image area */
+      width: 100%;
+      position: relative;
+      z-index: -1;
+      margin-top: 80px; /* Adjust the margin to position the image directly below the navbar */
+    }
+
+    /* Navigation list styles */
+    .nav-list {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Navigation link styles */
+    .nav-item {
+      margin: 0 20px;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: white;
+      position: relative; /* Required for the underline effect */
+      transition: color 0.3s; /* Add CSS transitions for smoother hover effects */
+    }
+
+    .nav-link:hover {
+      color: #FF6B6B; /* Change text color on hover */
+    }
+
+    /* Underline effect styles */
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: transparent; /* Initial color is transparent */
+      transition: background-color 0.3s; /* Smooth transition for the underline effect */
+    }
+
+    .nav-link:hover::after {
+      background-color: #FF6B6B; /* Color of the underline on hover */
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar container -->
+<div class="navbar">
+  <!-- Navigation list -->
+  <ul class="nav-list">
+    <!-- Navigation items -->
+    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="projects.html">Machine Learning</a></li>
+    <li class="nav-item"><a class="nav-link" href="about.html">Mobile Apps</a></li>
+    <li class="nav-item"><a class="nav-link" href="Misc.html">Miscellaneous Projects</a></li>
+  </ul>
+</div>
+
+<!-- Background image segment -->
+<div class="background-image"></div>
+
+<!-- Your content goes here -->
+
+<script>
+  // Your JavaScript code for animations and interactions can go here
+</script>
+
+</body>
+</html>
